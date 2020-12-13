@@ -37,8 +37,7 @@ public class SpaceShip extends Sprite{
 		}
 	}
 	
-	public List <Missiles> getMissiles()
-	{
+	public List <Missile> getMissiles() {
 		return missiles;
 	}
 	
