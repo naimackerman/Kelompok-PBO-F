@@ -1,21 +1,33 @@
 # Collision Detection
-//Sprite.java
+## Deskripsi
+* Sprite.java
 
-Sprite.java adalah class untuk menyimpan pergerakan sprites (spaceship, alien dan missile) dan terdapat function 
+Sprite.java adalah class untuk menyimpan pergerakan sprites (spaceship, alien dan missile) dan terdapat function
+
+```
 public Rectangle getBounds() {
     return new Rectangle(x, y, width, height);
 }
+```
+
 untuk mengambil kotak icon supaya bisa menentukan apakah tabrakan atau tidak.
 
-//Spaceship.java
+* Spaceship.java
+
 Spaceship.java adalah class untuk merepresentasikan spaceship yang didalamnya terdapat function untuk meng-initiate spaceship, menyimpan pergerakan spaceshipnya, list untuk menyimpan penembakan missile yaitu :
+
+```
 private List<Missile> missiles;
 public void fire() {
     missiles.add(new Missile(x + width, y + height / 2));
 }
+```
     
- //Class Board.java
+* Board.java
+
 Board class adalah class untuk menampilkan tampilan dari permainan terlihat pada function :
+
+```
     private final int[][] pos = {
     {2380, 29}, {2500, 59}, {1380, 89},
     {780, 109}, {580, 139}, {680, 239},
@@ -27,8 +39,11 @@ Board class adalah class untuk menampilkan tampilan dari permainan terlihat pada
     {810, 220}, {860, 20}, {740, 180},
     {820, 128}, {490, 170}, {700, 30}
 };
+```
     
 Di dalam class Board juga terdapat function untuk menginisiasi posisi dari alienship. initAliens() method digunakan untuk membuat list dari alien objects.
+
+```
 public void initAliens() {
     
     aliens = new ArrayList<>();
@@ -37,25 +52,31 @@ public void initAliens() {
         aliens.add(new Alien(p[0], p[1]));
     }
 }
+```
 
 Fungsi dari paintComponent(), adalah untuk menggambar sprites atau menuliskan kata game over, tergantung dari variable di dalam game.
 Fungsi dari drawObjects() adalah untuk menggambar sprites di dalam window yang ditampilkan.
 
+```
 for (Alien alien : aliens) {
     if (alien.isVisible()) {
         g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
     }
 }
+```
 
 Sebagai contoh untuk menggambar alien, kita akan menggunakan looping tersebut untuk menggambar alien apabila alien tersebut belum dihancurkan sebelumnya, yang nantinya akan dicek oleh isVisible().
 
+```
 g.setColor(Color.WHITE);
 g.drawString("Aliens left: " + aliens.size(), 5, 15);
+```
 
 Potongan codingan tersebut untuk menampilkan di pojok kiri atas dari window, berapakah alien yang tersisa
 
 Untuk menampilkan game telah berakhir, digunakan function drawGameOver() seperti yang ditampilkan di bawah ini
 
+```
 private void drawGameOver(Graphics g) {
 
     String msg = "Game Over";
@@ -67,8 +88,11 @@ private void drawGameOver(Graphics g) {
     g.drawString(msg, (B_WIDTH - fm.stringWidth(msg)) / 2,
             B_HEIGHT / 2);
 }
+```
 
 Untuk setiap aksi event akan direpresentasikan dalam 1 game. Maka diperlukan function untuk menyimpan update dari setiap pergerakan spaceship, alien dan missiles.
+
+```
 @Override
 public void actionPerformed(ActionEvent e) {
 
@@ -82,8 +106,11 @@ public void actionPerformed(ActionEvent e) {
 
     repaint();
 }
+```
 
-Untuk setiap function updateShip() updateMissiles() dan updateAlien() memiliki logic yang sama. Sebagai contoh untuk updateAlien(), kita mengecek apakah ada object alien yang tersisa di list Alien? Game tersebut akan berakhir apabila list tersebut empty, jika tidak maka game akan berlanjut dan alien yang terhancurkan akan di hapus dari list. 
+Untuk setiap function updateShip() updateMissiles() dan updateAlien() memiliki logic yang sama. Sebagai contoh untuk updateAlien(), kita mengecek apakah ada object alien yang tersisa di list Alien? Game tersebut akan berakhir apabila list tersebut empty, jika tidak maka game akan berlanjut dan alien yang terhancurkan akan di hapus dari list.
+
+```
 private void updateAliens() {
 
     if (aliens.isEmpty()) {
@@ -103,9 +130,11 @@ private void updateAliens() {
         }
     }
 }  
+```
 
 Apabila spaceship tersebut bertabrakan dengan alien, maka akan dicek di function checkCollisions(), untuk mengecek batasan objek spaceship dan alien menggunakan method getBounds() dan intersect apabila batasan objek-objek tersebut bertabrakan
 
+```
 List<Missile> ms = spaceship.getMissiles();
 
 for (Missile m : ms) {
@@ -123,10 +152,12 @@ for (Missile m : ms) {
         }
     }
 }
+```
 
-//Class Alien.java
+* Alien.java
 Sama seperti class spaceship, alien.java adalah class untuk menginisiasi alien dan mengatur pergerakannya.
 
+```
 public void move() {
 
     if (x < 0) {
@@ -135,11 +166,14 @@ public void move() {
 
     x -= 1;
 }
+```
 
 untuk pergerakannya yang secara acak, apabila alien yang belum dihancurkan melewati screen sebelah kiri, maka akan lanjut di keluarkan dari layar sebelah kanan.
 
-//Class Missiles.java
+* Missiles.java
 Untuk class Missiles, terdapat function untuk menginisiasi missile dari spaceship, dan diatur kecepatannya. Namun, perbedaan pergerakan missile dengan alien adalah, missile akan hilang apabila telah mencapai screen sebelah kanan.
+
+```
 public void move() {
     
     x += MISSILE_SPEED;
@@ -147,9 +181,11 @@ public void move() {
     if (x > BOARD_WIDTH)
         visible = false;
 }
+```
+* CollisionEx.java
+Berfungsi untuk mengeksekusi program main. Terdapat fungsi initUI() untuk membuat frame permainan dan fungsi main untuk mengeksekusinya
 
-Berikut adalah MainApp dari Collision Detection
-
+```
 public class CollisionEx extends JFrame {
 
     public CollisionEx() {
@@ -177,5 +213,7 @@ public class CollisionEx extends JFrame {
         });
     }
 }
+```
 
-
+## Class Diagram Image
+![](https://raw.githubusercontent.com/daffainfo/Kelompok-PBO-F/master/Tugas%20Kelompok/Collision%20Detection/Collision%20Detection.jpg)
