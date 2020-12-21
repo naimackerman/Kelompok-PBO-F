@@ -282,7 +282,7 @@ public class CollisionEx extends JFrame {
 ```
 
 ## Class Diagram Image
-![](https://raw.githubusercontent.com/daffainfo/Kelompok-PBO-F/master/Tugas%20Kelompok/Collision%20Detection/Collision%20Detection%20with%20Mouse.jpg)
+![](https://raw.githubusercontent.com/daffainfo/Kelompok-PBO-F/master/Tugas%20Kelompok/Collision%20Detection%20with%20Mouse/Collision%20Detection%20with%20Mouse.jpg)
 
 ## Video Program
 
