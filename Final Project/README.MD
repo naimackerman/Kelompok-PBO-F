@@ -1,5 +1,18 @@
-# Final Project PBO
-Anggota Kelompok
-1. Nur Ahmad Khatim - 05111940000074
-2. Evelyn Sierra - 05111940000111
-3. Muhammad Daffa - 05111940000175
+# Snake Game
+## Game
+
+* MainMenu.java
+
+Class ini adalah class utama yang digunakan untuk menjalankan program.
+
+* Snake.java
+
+Snake.java adalah class untuk merepresentasikan class yang didalamnya terdapat function untuk meng-initiate snake dan menyimpan pergerakan ular
+
+* Apple.java
+
+Apple.java adalah class yang berisi fungsi yang berhubungan dengan apple, seperti fungsi untuk me-random lokasi apple
+
+* Board.java
+
+Board.java adalah Class yang digunakan untuk membuat board yang akan dipakai sebagai arena game.
