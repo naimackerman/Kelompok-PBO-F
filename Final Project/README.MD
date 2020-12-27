@@ -17,6 +17,10 @@ Apple.java adalah class yang berisi fungsi yang berhubungan dengan apple, sepert
 
 Board.java adalah Class yang digunakan untuk membuat board yang akan dipakai sebagai arena game.
 
+* Credits.java
+
+Credits.java adalah class yang berfungsi untuk menampilkan halaman credits
+
 
 ## Referensi Aplikasi
 * [ZetCode](http://zetcode.com/javagames/snake/)
