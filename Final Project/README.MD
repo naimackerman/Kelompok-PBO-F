@@ -1,5 +1,5 @@
 # Snake Game
-## Game
+### Jenis Aplikasi= Game
 
 * MainMenu.java
 
@@ -16,3 +16,7 @@ Apple.java adalah class yang berisi fungsi yang berhubungan dengan apple, sepert
 * Board.java
 
 Board.java adalah Class yang digunakan untuk membuat board yang akan dipakai sebagai arena game.
+
+
+## Referensi Aplikasi
+* [ZetCode](http://zetcode.com/javagames/snake/)
