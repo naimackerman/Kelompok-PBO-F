@@ -11,7 +11,7 @@ Snake.java adalah class untuk merepresentasikan class yang di dalamnya terdapat 
 
 * Food.java
 
-
+Food.java adalah parent class dari Apple.java dan GoldenApple.java.
 
 * Apple.java
 
