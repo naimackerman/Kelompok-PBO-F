@@ -9,13 +9,25 @@ Class ini adalah class utama yang digunakan untuk menjalankan program.
 
 Snake.java adalah class untuk merepresentasikan class yang didalamnya terdapat function untuk meng-initiate snake dan menyimpan pergerakan ular
 
+* Food.java
+
+
+
 * Apple.java
 
 Apple.java adalah class yang berisi fungsi yang berhubungan dengan apple, seperti fungsi untuk me-random lokasi apple
 
+* GoldenApple.java
+
+
+
 * Board.java
 
 Board.java adalah Class yang digunakan untuk membuat board yang akan dipakai sebagai arena game.
+
+* Level.java
+
+
 
 * Credits.java
 
