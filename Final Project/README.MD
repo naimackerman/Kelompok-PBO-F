@@ -29,6 +29,8 @@ Board.java adalah class yang digunakan untuk membuat board yang akan dipakai seb
 
 Credits.java adalah class yang berfungsi untuk menampilkan halaman credits
 
+## Diagram kelas umum
+![](https://github.com/daffainfo/Kelompok-PBO-F/blob/master/Final%20Project/Snake.jpg)
 
 ## Referensi Aplikasi
 * [ZetCode](http://zetcode.com/javagames/snake/)
