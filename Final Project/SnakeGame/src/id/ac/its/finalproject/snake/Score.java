@@ -1,4 +1,4 @@
-package src;
+package id.ac.its.finalproject.snake;
 
 import java.io.*;
 import java.util.ArrayList;

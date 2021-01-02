@@ -1,4 +1,4 @@
-package src;
+package id.ac.its.finalproject.snake;
 
 public class Apple {
     int[] applexPos = { 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 103, 109, 115, 121, 127, 133, 139,
