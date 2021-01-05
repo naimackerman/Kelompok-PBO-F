@@ -16,13 +16,13 @@ public class Snake {
 	
 	public Snake()
 	{
-		 this.left=false;
-	     this.right=false;
-	     this.up=false;
-	     this.down=false;
-	     this.dead=false;
-	     this.lengthOfSnake=5;
-	     this.moves=0;
+		this.left=false;
+		this.right=false;
+		this.up=false;
+		this.down=false;
+		this.dead=false;
+		this.lengthOfSnake=5;
+		this.moves=0;
 	}
 	
 	//untuk pergerakkannya
@@ -116,11 +116,60 @@ public class Snake {
 	{
 		//maka ular tersebut tidak bergerak
 		this.right = false;
-        this.left = false;
-        this.up = false;
-        this.down = false;
-        this.dead = true;
+		this.left = false;
+		this.up = false;
+		this.down = false;
+		this.dead = true;
 	}
+	
+	//pergerakan ular ke kanan
+	    public void movementRight(){
+		// pindahkan posisi head ke index selanjutnya
+		for (int i = this.lengthOfSnake - 1; i >= 0; i--) {
+		    // pindahkan posisi snakeyLength
+		    this.snakeyLength[i + 1] = this.snakeyLength[i];
+		}
+		for (int i = this.lengthOfSnake - 1; i >= 0; i--) {
+		    // pindahkan posisi snakexLength
+		    if (i == 0) {
+			this.snakexLength[i] = this.snakexLength[i] + 6;
+		    } else {
+			this.snakexLength[i] = this.snakexLength[i - 1];
+		    }
+		    // jika sudah lewat ujung kanan
+		    if (this.snakexLength[0] > 637) {
+			// pindahkan kepala kembali ke dalam board
+			this.snakexLength[0] -= 6;
+			// maot
+			death();
+		    }
+		}
+	    }
+
+	    //pergerakan ular ke kiri
+	    public void movementLeft(){
+		// pindahkan posisi head ke index selanjutnya
+		for (int i = this.lengthOfSnake - 1; i >= 0; i--) {
+		    // pindahkan posisi snakeyLength
+		    this.snakeyLength[i + 1] = this.snakeyLength[i];
+		}
+		for (int i = this.lengthOfSnake - 1; i >= 0; i--) {
+		    // pindahkan posisi snakexLength
+		    if (i == 0) {
+			this.snakexLength[i] = this.snakexLength[i] - 6;
+		    } else {
+			this.snakexLength[i] = this.snakexLength[i - 1];
+		    }
+		    // jika sudah lewat ujung kiri
+		    if (this.snakexLength[0] < 25) {
+			// pindahkan kepala kembali ke dalam board
+			this.snakexLength[0] += 6;
+			// maot
+			death();
+		    }
+		}
+	    }
+
 	
 	//naik ke atas
 	public void movementUp()
