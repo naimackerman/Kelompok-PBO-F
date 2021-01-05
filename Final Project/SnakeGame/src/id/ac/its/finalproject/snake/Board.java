@@ -75,8 +75,16 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 			}
 		}
 
-		// judul
+		// border judul
 		g.setColor(Color.WHITE);
+		g.drawRect(24, 10, 852, 55);
+
+		// background judul
+		g.setColor(Color.black);
+		g.fillRect(25, 11, 851, 54);
+
+		// Tampilin Judul
+		g.setColor(Color.white);
 		g.setFont(new Font("Helvetica", Font.BOLD, 30));
 		g.drawString("Snake Game", 350, 50);
 
