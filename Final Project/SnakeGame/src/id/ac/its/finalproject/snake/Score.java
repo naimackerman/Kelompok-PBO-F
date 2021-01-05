@@ -55,7 +55,7 @@ public class Score {
         }
         // Kalau highscore.dat nya gaada
         catch (Exception e) {
-            return "0\n0\n0\n0\n0\n0\n0\n0\n0\n0";
+            return "0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0";
         } finally {
             try {
                 // Tutup readernya
@@ -99,8 +99,8 @@ public class Score {
 
             int size = list.size();
 
-            // Nantinya akan hanya 10 skor teratas yang ditulis kembali
-            for (int i = 0; i < 10; i++) {
+            // Nantinya akan hanya 15 skor teratas yang ditulis kembali
+            for (int i = 0; i < 15; i++) {
                 // Ini untuk mengisi nilai lainnya 0
                 if (i > size - 1) {
                     String def = "0";
@@ -109,7 +109,7 @@ public class Score {
                     String str = String.valueOf(list.get(i));
                     writer.write(str);
                 }
-                if (i < 9) {// This prevent creating a blank like at the end of the file**
+                if (i < 14) {// This prevent creating a blank like at the end of the file**
                     writer.newLine();
                 }
             }
