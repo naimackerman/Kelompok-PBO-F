@@ -9,10 +9,10 @@ public class MainApp {
         Board board = new Board();
 
         obj.setBounds(10, 10, 910, 750);
-        obj.setBackground(Color.BLACK);
+        obj.setBackground(Color.GRAY);
         obj.setResizable(false);
         obj.setVisible(true);
         obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        obj.add(Board);
+        obj.add(board);
     }
 }
