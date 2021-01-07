@@ -21,6 +21,9 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 	// instansiasi objek apple
 	Apple apple = new Apple();
+	
+	//inisiasi goldenapple
+	GoldenApple goldenapple = new GoldenApple();
 
 	// instansiasi objek obstacle
 	Obstacle obstacle = new Obstacle();
@@ -35,6 +38,9 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 	private Timer timer;
 	private int delayeasy = 200;
 	private int delayhard = 100;
+	
+	public static final int gameAreaXoffset = 619;
+	public static final int gameAreaYoffset = 613;
 	
 	int choice = 5;
 	
@@ -101,7 +107,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 		// background gameplay
 		g.setColor(Color.BLACK);
-		g.fillRect(25, 72, 619, 613);
+		g.fillRect(25, 72, gameAreaXoffset, gameAreaYoffset);
 
 		// border untuk leaderboard
 		g.setColor(Color.WHITE);
@@ -142,8 +148,9 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 		appleImage = new ImageIcon("images/Apple.png");
 
-		// Jika snakeya makan apllenya
-		if ((apple.applexPos[xPos]) == snake.snakexLength[0] && (apple.appleyPos[yPos] == snake.snakeyLength[0])) {
+		// Jika snakeya makan apelnya
+		if ((apple.applexPos[xPos]) == snake.snakexLength[0] && (apple.appleyPos[yPos] == snake.snakeyLength[0])) 
+		{
 			snake.lengthOfSnake++;
 			score.increaseScore();
 			xPos = random.nextInt(100);
@@ -324,7 +331,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+		
 	}
 
 }

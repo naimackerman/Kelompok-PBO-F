@@ -3,7 +3,7 @@ package id.ac.its.finalproject.snake;
 import java.awt.Color;
 import javax.swing.JFrame;
 
-public class MainApp {
+public class MainApp extends JFrame {
     public static void main(String[] args) {
     	JFrame obj = new JFrame("Snake game");
         Board board = new Board();
