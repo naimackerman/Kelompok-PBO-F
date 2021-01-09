@@ -14,8 +14,8 @@ public class Score {
     }
 
     //menambah score
-    public void increaseScore(){
-        this.score++;
+    public void increaseScore(int increment){
+        this.score += increment;
     }
 
     //reset Score
@@ -168,4 +168,5 @@ public class Score {
         }
 
     }
+
 }

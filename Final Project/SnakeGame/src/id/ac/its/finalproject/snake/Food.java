@@ -7,7 +7,7 @@ import java.util.Random;
 public abstract class Food {
 	
 	protected static final int SIZE = 20;
-	private ImageIcon appleImage;
+	private ImageIcon goldenappleImage;
 	protected boolean isVisible = false;
 	protected Random rand;
 	protected Point point;
@@ -23,7 +23,7 @@ public abstract class Food {
 	
 	public ImageIcon getImage()
 	{
-		return appleImage;
+		return goldenappleImage;
 	}
 	
 	public boolean isVisible()

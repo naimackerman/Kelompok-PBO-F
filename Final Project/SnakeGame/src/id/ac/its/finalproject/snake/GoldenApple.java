@@ -6,15 +6,12 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-public class GoldenApple extends Food{
-	public GoldenApple()
-	{
-		rand = new Random();
-		point = new Point((rand.nextInt(25) * Food.SIZE) + Board.gameAreaXoffset, (rand.nextInt(25) * Food.SIZE) + Board.gameAreaYoffset);
-		x = point.x;
-		y = point.y;
-
-		isVisible = true;
-	}
+public class GoldenApple {
+	
+	protected Random rand  = new Random();
+	protected Point point = new Point (rand.nextInt((500 - 300)+300) , rand.nextInt(500 - 300)+300);
+		public int x = point.x;
+		public int y = point.y;
+	
 }
 

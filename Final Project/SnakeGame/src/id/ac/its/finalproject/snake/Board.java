@@ -42,6 +42,9 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 	public static final int gameAreaXoffset = 619;
 	public static final int gameAreaYoffset = 613;
 	
+	private int counter = 0;
+	private int flag = 0;
+	
 	int choice = 5;
 	
 	private ImageIcon snakeBody;
@@ -51,6 +54,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 	// Buat gambar apple
 	private ImageIcon appleImage;
+	private ImageIcon goldenappleImage;
 
 	// Buat gambar obstacle
 //	private ImageIcon obstacleImsage;
@@ -147,16 +151,46 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		}
 
 		appleImage = new ImageIcon("images/Apple.png");
+		goldenappleImage = new ImageIcon("images/GoldenApple.png");
 
-		// Jika snakeya makan apelnya
-		if ((apple.applexPos[xPos]) == snake.snakexLength[0] && (apple.appleyPos[yPos] == snake.snakeyLength[0])) 
+		
+		if (snake.moves != 0) {	
+			
+//			obstacleImage.paintIcon(this, g, obstacle.obstaclexPos[xPos], obstacle.obstacleyPos[yPos]);
+			if(counter == 1) //untuk munculin
+			{
+				goldenappleImage.paintIcon(this, g, goldenapple.x, goldenapple.y);
+				System.out.println(snake.snakexLength[0]);
+				System.out.println(snake.snakeyLength[0]);
+			}
+			else if (counter < 1)
+			{
+				appleImage.paintIcon(this, g, apple.applexPos[xPos], apple.appleyPos[yPos]);
+			}
+		}
+
+		// Jika snakenya makan apelnya
+		if ((apple.applexPos[xPos] == snake.snakexLength[0]) && (apple.appleyPos[yPos] == snake.snakeyLength[0])) 
 		{
 			snake.lengthOfSnake++;
-			score.increaseScore();
+			score.increaseScore(1);
 			xPos = random.nextInt(100);
 			yPos = random.nextInt(100);
-
+			
+			counter++; //untuk menghitung jumlah apple yang telah di makan
 		}
+		
+		//saat makan golden apel
+		if((goldenapple.x == snake.snakexLength[0]) && (goldenapple.y == snake.snakeyLength[0]))
+		{
+			
+			snake.lengthOfSnake = snake.lengthOfSnake + 5;
+			score.increaseScore(5);
+			
+			counter = 0;
+		}
+		
+		
 //		obstacleImage = new ImageIcon("images/Obstacle.png");
 //
 //		if ((obstacle.obstaclexPos[xPos]) == snake.snakexLength[0]
@@ -165,11 +199,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 //		}
 
 		// Sebelum user mencet spacebar, apple dan obstacle ga muncul
-		if (snake.moves != 0) {
-			appleImage.paintIcon(this, g, apple.applexPos[xPos], apple.appleyPos[yPos]);
-//			obstacleImage.paintIcon(this, g, obstacle.obstaclexPos[xPos], obstacle.obstacleyPos[yPos]);
-			
-		}
+		
 
 		if (snake.moves == 0) {
 			g.setColor(Color.WHITE);
@@ -227,7 +257,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		if (snake.right) {
 			// panggil fungsi pada class Snake untuk menggerakkan ular ke kanan
 			snake.movementRight();
-			// panggil kembali method paint secara otomatis
+			// panggil kem matis
 			repaint();
 		}
 		// menggerakkan ular ke kiri
