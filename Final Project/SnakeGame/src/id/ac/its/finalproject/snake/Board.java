@@ -42,7 +42,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 	public static final int gameAreaXoffset = 619;
 	public static final int gameAreaYoffset = 613;
 	
-	private int counter = 0;
+	private int counter = 1;
 	private int flag = 0;
 	
 	int choice = 5;
@@ -155,23 +155,16 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 		
 		if (snake.moves != 0) {	
+			appleImage.paintIcon(this, g, apple.applexPos[xPos], apple.appleyPos[yPos]);
 			
-//			obstacleImage.paintIcon(this, g, obstacle.obstaclexPos[xPos], obstacle.obstacleyPos[yPos]);
-			if(counter == 1) //untuk munculin
-			{
-				goldenappleImage.paintIcon(this, g, goldenapple.x, goldenapple.y);
-				System.out.println(snake.snakexLength[0]);
-				System.out.println(snake.snakeyLength[0]);
-			}
-			else if (counter < 1)
-			{
-				appleImage.paintIcon(this, g, apple.applexPos[xPos], apple.appleyPos[yPos]);
+			if (counter % 5 == 0) {
+				goldenappleImage.paintIcon(this, g, goldenapple.GoldenApplexPos[xPos], goldenapple.GoldenAppleyPos[yPos]);
 			}
 		}
+		
 
 		// Jika snakenya makan apelnya
-		if ((apple.applexPos[xPos] == snake.snakexLength[0]) && (apple.appleyPos[yPos] == snake.snakeyLength[0])) 
-		{
+		if ((apple.applexPos[xPos] == snake.snakexLength[0]) && (apple.appleyPos[yPos] == snake.snakeyLength[0]))  {
 			snake.lengthOfSnake++;
 			score.increaseScore(1);
 			xPos = random.nextInt(100);
@@ -181,11 +174,12 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		}
 		
 		//saat makan golden apel
-		if((goldenapple.x == snake.snakexLength[0]) && (goldenapple.y == snake.snakeyLength[0]))
-		{
+		if ((goldenapple.GoldenApplexPos[xPos] == snake.snakexLength[0]) && (goldenapple.GoldenAppleyPos[yPos] == snake.snakeyLength[0]))  {
 			
 			snake.lengthOfSnake = snake.lengthOfSnake + 5;
-			score.increaseScore(5);
+			score.increaseScoreGolden(1);
+			xPos = random.nextInt(100);
+			yPos = random.nextInt(100);
 			
 			counter = 0;
 		}
@@ -198,9 +192,8 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 //			snake.dead();
 //		}
 
-		// Sebelum user mencet spacebar, apple dan obstacle ga muncul
 		
-
+		// Sebelum user mencet spacebar, apple dan obstacle ga muncul
 		if (snake.moves == 0) {
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Courier New", Font.BOLD, 26));
