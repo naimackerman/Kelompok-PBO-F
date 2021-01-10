@@ -157,14 +157,14 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		if (snake.moves != 0) {	
 			appleImage.paintIcon(this, g, apple.applexPos[xPos], apple.appleyPos[yPos]);
 			
-			if (counter % 5 == 0) {
+			if (counter % 6 == 0) {
 				goldenappleImage.paintIcon(this, g, goldenapple.GoldenApplexPos[xPos], goldenapple.GoldenAppleyPos[yPos]);
 			}
 		}
 		
 
 		// Jika snakenya makan apelnya
-		if ((apple.applexPos[xPos] == snake.snakexLength[0]) && (apple.appleyPos[yPos] == snake.snakeyLength[0]))  {
+		if ((apple.applexPos[xPos] == snake.snakexLength[0]) && (apple.appleyPos[yPos] == snake.snakeyLength[0]) && !(counter % 6 == 0))  {
 			snake.lengthOfSnake++;
 			score.increaseScore(1);
 			xPos = random.nextInt(100);
@@ -174,14 +174,14 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		}
 		
 		//saat makan golden apel
-		if ((goldenapple.GoldenApplexPos[xPos] == snake.snakexLength[0]) && (goldenapple.GoldenAppleyPos[yPos] == snake.snakeyLength[0]))  {
+		if ((goldenapple.GoldenApplexPos[xPos] == snake.snakexLength[0]) && (goldenapple.GoldenAppleyPos[yPos] == snake.snakeyLength[0]) && (counter % 6 == 0))  {
 			
-			snake.lengthOfSnake = snake.lengthOfSnake + 5;
-			score.increaseScoreGolden(1);
+			snake.lengthOfSnake++;
+			score.increaseScore(5);
 			xPos = random.nextInt(100);
 			yPos = random.nextInt(100);
 			
-			counter = 0;
+			counter = 1;
 		}
 		
 		
@@ -345,6 +345,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 				snake.lengthOfSnake = 5;
 				score.resetScore();
 				snake.death = false;
+				counter = 1;
 				repaint();
 			}
 			break;
