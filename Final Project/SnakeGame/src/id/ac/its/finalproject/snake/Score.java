@@ -17,11 +17,6 @@ public class Score {
     public void increaseScore(int increment){
         this.score += increment;
     }
-    
-    public void increaseScoreGolden(int increment){
-    	increment *= 5;
-        this.score += increment;
-    }
 
     //reset Score
     public void resetScore(){
