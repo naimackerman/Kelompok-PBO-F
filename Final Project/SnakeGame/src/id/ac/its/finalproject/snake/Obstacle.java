@@ -1,14 +1,23 @@
 package id.ac.its.finalproject.snake;
 
-public class Obstacle {
-    int[] obstaclexPos = { 45, 51, 57, 63, 69, 75, 81, 87, 93, 99, 105, 111, 117, 123, 129, 135, 141, 147, 153, 159,
-            165, 171, 177, 183, 189, 195, 201, 207, 213, 219, 225, 231, 237, 243, 249, 255, 261, 267, 273, 279, 285,
-            291, 297, 303, 309, 315, 321, 327, 333, 339, 345, 351, 357, 363, 369, 375, 381, 387, 393, 399, 405, 411,
-            417, 423, 429, 435, 441, 447, 453, 459, 465, 461, 477, 483, 489, 495, 501, 507, 513, 519, 525, 531, 537,
-            543, 549, 555, 561, 567, 573, 579, 585, 591, 597, 603, 609, 615, 621, 627, 633, 639, 645 };
-    int[] obstacleyPos = { 93, 99, 105, 111, 117, 123, 129, 135, 141, 147, 153, 159, 165, 171, 177, 183, 189, 195,
-            201, 207, 213, 219, 225, 231, 237, 243, 249, 255, 261, 267, 273, 279, 285, 291, 297, 303, 309, 315, 321,
-            327, 333, 339, 345, 351, 357, 363, 369, 375, 381, 387, 393, 399, 405, 411, 417, 423, 429, 435, 441, 447,
-            453, 459, 465, 471, 477, 483, 489, 495, 501, 507, 513, 519, 525, 531, 537, 543, 549, 555, 561, 567, 573,
-            579, 585, 591, 597, 603, 609, 615, 621, 627, 633, 639, 645, 651, 657, 663, 669, 675, 681, 687 };
+import java.util.Random;
+
+public class Obstacle extends Items{
+    
+	//Default Constructor
+    public Obstacle() {
+		super();
+	}
+    
+	// Fungsi baru untuk merandom letak obstacle X saat bermain level hard
+	public int randomObstacleX(int[] obstaclexPos) {
+		int random = new Random().nextInt(obstaclexPos.length);
+	    return obstaclexPos[random];
+	}
+	
+	// Fungsi baru untuk merandom letak obstacle Y saat bermain level hard
+	public int randomObstacleY(int[] obstacleyPos) {
+		int random = new Random().nextInt(obstacleyPos.length);
+	    return obstacleyPos[random];
+	}
 }

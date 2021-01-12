@@ -6,167 +6,171 @@ import java.util.Collections;
 import java.util.List;
 
 public class Score {
-    private int score;
+	private int score;
 
-    //konstruktor
-    public Score(){
-        this.score=0;
-    }
+	// Default constructor
+	public Score() {
+		this.score = 0;
+	}
+	
+	// Fungsi untuk mengembalikan nilai didalam gameplay
+	public int getScore() {
+		return this.score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	// Fungsi menambah score
+	public void increaseScore(int increment) {
+		this.score += increment;
+	}
 
-    //menambah score
-    public void increaseScore(int increment){
-        this.score += increment;
-    }
+	// Fungsi mereset score
+	public void resetScore() {
+		this.score = 0;
+	}
 
-    //reset Score
-    public void resetScore(){
-        this.score=0;
-    }
+	// Fungsi buat menampilkan highscore game
+	public String getHighScore() {
+		FileReader readFile = null;
+		BufferedReader reader = null;
+		try {
+			// ReadFile highscore.dat
+			readFile = new FileReader("highscore.dat");
+			reader = new BufferedReader(readFile);
 
-    //untuk mengembalikan nilai score ke tampilan Gameplay
-    public int getScore(){
-        return this.score;
-    }
+			String line = reader.readLine();
+			String allLines = line;
 
-    // Fungsi buat ambil HighScore
-    public String getHighScore() {
-        FileReader readFile = null;
-        BufferedReader reader = null;
-        try {
-            // ReadFile highscore.dat
-            readFile = new FileReader("highscore.dat");
-            reader = new BufferedReader(readFile);
+			while (line != null) {
+				// Baca per baris
+				line = reader.readLine();
+				// Ini ada untuk error handling
+				if (line == null)
+					break;
+				// Menggabungkan setiap baris
+				allLines = allLines.concat("\n" + line);
+			}
 
-            String line = reader.readLine();
-            String allLines = line;
+			// return String yang persis seperti isi dari highscore.dat
+			return allLines;
+		}
+		// Jika tidak ada file bernama highscore.dat
+		catch (Exception e) {
+			return "0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0";
+		} finally {
+			try {
+				// Tutup readernya
+				if (reader != null)
+					reader.close();
+			} // Kalau terjadi exception
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-            while (line != null) {
-                // Baca per baris
-                line = reader.readLine();
-                // Ini ada untuk error handling
-                if (line == null)
-                    break;
-                // Gabunging barisnya
-                allLines = allLines.concat("\n" + line);
-            }
+	// fungsi untuk mengurutkan high score
+	public void sortHighScore() {
+		FileReader readFile = null;
+		BufferedReader reader = null;
+		FileWriter writeFile = null;
+		BufferedWriter writer = null;
+		List<Integer> list = new ArrayList<Integer>();
+		try {
+			readFile = new FileReader("highscore.dat");
+			reader = new BufferedReader(readFile);
 
-            // return String yang persis seperti isi dari highscore.dat
-            return allLines;
-        }
-        // Kalau highscore.dat nya gaada
-        catch (Exception e) {
-            return "0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0\n0";
-        } finally {
-            try {
-                // Tutup readernya
-                if (reader != null)
-                    reader.close();
-            } // Kalau terjadi exception
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+			String line = reader.readLine();
 
-    //fungsi untuk mengurutkan high score
-    public void sortHighScore() {
-        FileReader readFile = null;
-        BufferedReader reader = null;
-        FileWriter writeFile = null;
-        BufferedWriter writer = null;
-        List<Integer> list = new ArrayList<Integer>();
-        try {
-            readFile = new FileReader("highscore.dat");
-            reader = new BufferedReader(readFile);
+			// Pindahkan isi dari highscore.dat ke sebuah array List
+			while (line != null) {
+				list.add(Integer.parseInt(line));
+				line = reader.readLine();
+			}
 
-            String line = reader.readLine();
+			// Sort array listnya
+			Collections.sort(list);
 
-            // Pindahkan isi dari highscore.dat ke sebuah array List
-            while (line != null) {
-                list.add(Integer.parseInt(line));
-                line = reader.readLine();
-            }
+			// Balikin biar jadi descending
+			Collections.reverse(list);
 
-            // Sort array listnya
-            Collections.sort(list);
+			// Tulis ke highscore.dat, score yang udah diurutin
+			writeFile = new FileWriter("highscore.dat");
+			writer = new BufferedWriter(writeFile);
 
-            // Balikin biar jadi descending
-            Collections.reverse(list);
+			int size = list.size();
 
-            // Tulis ke highscore.dat, score yang udah diurutin
-            writeFile = new FileWriter("highscore.dat");
-            writer = new BufferedWriter(writeFile);
+			// Nantinya akan hanya 15 skor teratas yang ditulis kembali
+			for (int i = 0; i < 15; i++) {
+				// Ini untuk mengisi nilai lainnya 0
+				if (i > size - 1) {
+					String def = "0";
+					writer.write(def);
+				} else { // Ambil satu satu dari list
+					String str = String.valueOf(list.get(i));
+					writer.write(str);
+				}
+				if (i < 14) {// This prevent creating a blank like at the end of the file**
+					writer.newLine();
+				}
+			}
+		} catch (Exception e) {
+			return;
+		} finally {
+			try {
+				// Tutup readernya
+				if (reader != null)
+					reader.close();
+				// Tutup writer
+				if (writer != null)
+					writer.close();
+			} // Kalau terjadi exception
+			catch (IOException e) {
+				return;
+			}
+		}
 
-            int size = list.size();
+	}
 
-            // Nantinya akan hanya 15 skor teratas yang ditulis kembali
-            for (int i = 0; i < 15; i++) {
-                // Ini untuk mengisi nilai lainnya 0
-                if (i > size - 1) {
-                    String def = "0";
-                    writer.write(def);
-                } else { // Ambil satu satu dari list
-                    String str = String.valueOf(list.get(i));
-                    writer.write(str);
-                }
-                if (i < 14) {// This prevent creating a blank like at the end of the file**
-                    writer.newLine();
-                }
-            }
-        } catch (Exception e) {
-            return;
-        } finally {
-            try {
-                // Tutup readernya
-                if (reader != null)
-                    reader.close();
-                // Tutup writer
-                if (writer != null)
-                    writer.close();
-            } // Kalau terjadi exception
-            catch (IOException e) {
-                return;
-            }
-        }
+	// Fungsi buat nulis score baru di file
+	public void saveNewScore() {
+		String newScore = String.valueOf(this.getScore());
 
-    }
+		// Buat file untuk simpan highscorenya
+		File scoreFile = new File("highscore.dat");
 
-    // Fungsi buat nulis score baru di file
-    public void saveNewScore() {
-        String newScore = String.valueOf(this.getScore());
+		// Jika file highscore.datnya tidak ada
+		if (!scoreFile.exists()) {
+			try {
+				// Buat file baru
+				scoreFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
-        // Buat file untuk simpan highscorenya
-        File scoreFile = new File("highscore.dat");
+		FileWriter writeFile = null;
+		BufferedWriter writer = null;
 
-        // Jika file highscore.datnya tidak ada
-        if (!scoreFile.exists()) {
-            try {
-                // Buat file baru
-                scoreFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+		try {
+			// Tulis new scorenya di file
+			writeFile = new FileWriter(scoreFile, true);
+			writer = new BufferedWriter(writeFile);
+			writer.write(newScore);
+		} catch (Exception e) {
+			return;
+		} finally {
+			try {
+				if (writer != null)
+					writer.close();
+			} catch (Exception e) {
+				return;
+			}
+		}
 
-        FileWriter writeFile = null;
-        BufferedWriter writer = null;
-
-        try {
-            // Tulis new scorenya di file
-            writeFile = new FileWriter(scoreFile, true);
-            writer = new BufferedWriter(writeFile);
-            writer.write(newScore);
-        } catch (Exception e) {
-            return;
-        } finally {
-            try {
-                if (writer != null)
-                    writer.close();
-            } catch (Exception e) {
-                return;
-            }
-        }
-
-    }
+	}
 
 }

@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.Font;
-import java.util.*;
 
 public class Board extends JPanel implements KeyListener, ActionListener {
 	// instansiasi objek snake
@@ -21,49 +20,53 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 	// instansiasi objek apple
 	Apple apple = new Apple();
-	
-	//inisiasi goldenapple
+
+	// inisiasi goldenapple
 	GoldenApple goldenapple = new GoldenApple();
 
 	// instansiasi objek obstacle
 	Obstacle obstacle = new Obstacle();
-	
-	Scanner scanner = new Scanner(System.in);
 
-	// buat gambar kepala
-	private ImageIcon snakeHead;
+	// Array berisi level gameplay
+	private String[] options = new String[] { "Easy", "Hard" };
 
-	String[] options = new String[] { "Easy", "Hard" };
-
+	// Memulai timer
 	private Timer timer;
-	private int delayeasy = 200;
-	private int delayhard = 100;
-	
-	public static final int gameAreaXoffset = 619;
-	public static final int gameAreaYoffset = 613;
-	
+	private final int delayeasy = 200;
+	private final int delayhard = 100;
+
+	// lebar dan tinggi gameplay
+	private final int gameAreaXoffset = 619;
+	private final int gameAreaYoffset = 613;
+
+	// counter untuk menghitung apel keluar berapa kali
 	private int counter = 1;
-	private int flag = 0;
-	
-	int choice = 5;
-	
+
+	// choice adalah pilihan level, jika level 0 = easy & 1 = hard
+	private int choice = 5;
+
+	// buat gambar snake
+	private ImageIcon snakeHead;
 	private ImageIcon snakeBody;
 
 	// koordinat letak kepala ular
 	private int snakeHeadXPos = 379;
+	private int snakeHeadYPos = 379;
 
-	// Buat gambar apple
+	// Buat gambar apple & golden
 	private ImageIcon appleImage;
 	private ImageIcon goldenappleImage;
 
 	// Buat gambar obstacle
-//	private ImageIcon obstacleImsage;
+	private ImageIcon obstacleImage;
 
 	// Untuk generate random number
 	private Random random = new Random();
 
-	private int xPos = random.nextInt(100);
-	private int yPos = random.nextInt(100);
+	// Untuk merandom array ke berpa
+	private final int jumlahArray = 99;
+	private int xPos = random.nextInt(jumlahArray);
+	private int yPos = random.nextInt(jumlahArray);
 
 	// Buat score game
 	Score score = new Score();
@@ -71,157 +74,177 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 	// Buat Highscore
 	private String highScore;
 
+	// jumlah obstacle yang akan muncul
+	private final int jumlahObstacle = 75;
+	private int randomObsX[] = new int[jumlahObstacle];
+	private int randomObsY[] = new int[jumlahObstacle];
+
+	// Default constructor
 	public Board() {
 		// buat pas mulai gamenya
 		addKeyListener(this);
 		setFocusable(true);
 		setFocusTraversalKeysEnabled(false);
+
+		for (int i = 0; i < jumlahObstacle; i++) {
+			randomObsX[i] = obstacle.randomObstacleX(obstacle.ItemsxPos);
+			randomObsY[i] = obstacle.randomObstacleY(obstacle.ItemsyPos);
+		}
+
 	}
 
 	public void paint(Graphics g) {
 		// cek jika game udah dimulai
-		if (snake.moves == 0) {
+		if (snake.getMoves() == 0) {
 			for (int i = 0; i < 5; i++) {
-				snake.snakexLength[i] = snakeHeadXPos;
+				snake.getSnakexLength()[i] = snakeHeadXPos;
+				snake.getSnakeyLength()[i] = snakeHeadYPos;
 				snakeHeadXPos -= 6;
-				snake.snakeyLength[i] = 355;
 			}
 		}
-		// untuk fix bug joptionpane yang selalu ke ujung :)
+		// Untuk menutupi JOptionPane yang ada diujung layar
 		if (choice == 0 || choice == 1) {
 			g.setColor(Color.GRAY);
 			g.fillRect(-10, -10, 910, 750);
 		}
-		// border judul
+		// Border untuk judul
 		g.setColor(Color.WHITE);
 		g.drawRect(24, 10, 852, 55);
 
-		// background judul
+		// Background judul
 		g.setColor(Color.black);
 		g.fillRect(25, 11, 851, 54);
 
-		// Tampilin Judul
+		// Menampilkan Judul Judul
 		g.setColor(Color.white);
 		g.setFont(new Font("Helvetica", Font.BOLD, 30));
 		g.drawString("Snake Game", 350, 50);
-		
-		// border untuk gameplay
+
+		// Border untuk gameplay
 		g.setColor(Color.WHITE);
 		g.drawRect(24, 71, 620, 614);
 
-		// background gameplay
+		// Background gameplay
 		g.setColor(Color.BLACK);
 		g.fillRect(25, 72, gameAreaXoffset, gameAreaYoffset);
 
-		// border untuk leaderboard
+		// Border untuk highscore
 		g.setColor(Color.WHITE);
 		g.drawRect(653, 71, 223, 614);
 
-		// background leaderboard
+		// Background highschore
 		g.setColor(Color.BLACK);
 		g.fillRect(654, 72, 221, 613);
 
-		// Tampilin Score
+		// Menampilkan score
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Helvetica", Font.BOLD, 20));
 		g.drawString("SCORE : " + score.getScore(), 720, 110);
 		g.drawRect(653, 130, 221, 1);
 
-		
-		// Tampilin HighScore
+		// Menampilkan highscore
 		score.sortHighScore();
 		highScore = score.getHighScore();
 		g.drawString("HIGHSCORE", 705, 180);
 		drawString(g, highScore, 705, 200);
-
-		// instansiasi gambar buat kepala ular
-		snakeHead = new ImageIcon("images/Head.png");
-		snakeHead.paintIcon(this, g, snake.snakexLength[0], snake.snakeyLength[0]);
-
-		for (int i = 0; i < snake.lengthOfSnake; i++) {
-			if (i == 0 && (snake.right || snake.left || snake.up || snake.down)) {
-				snakeHead = new ImageIcon("images/Head.png");
-				snakeHead.paintIcon(this, g, snake.snakexLength[i], snake.snakeyLength[i]);
-			}
-			if (i != 0) {
-				snakeBody = new ImageIcon("images/Body.png");
-				snakeBody.paintIcon(this, g, snake.snakexLength[i], snake.snakeyLength[i]);
-			}
-			
-		}
-
-		appleImage = new ImageIcon("images/Apple.png");
-		goldenappleImage = new ImageIcon("images/GoldenApple.png");
-
 		
-		if (snake.moves != 0) {	
-			appleImage.paintIcon(this, g, apple.applexPos[xPos], apple.appleyPos[yPos]);
-			
-			if (counter % 6 == 0) {
-				goldenappleImage.paintIcon(this, g, goldenapple.GoldenApplexPos[xPos], goldenapple.GoldenAppleyPos[yPos]);
-			}
-		}
-		
-
-		// Jika snakenya makan apelnya
-		if ((apple.applexPos[xPos] == snake.snakexLength[0]) && (apple.appleyPos[yPos] == snake.snakeyLength[0]) && !(counter % 6 == 0))  {
-			snake.lengthOfSnake++;
-			score.increaseScore(1);
-			xPos = random.nextInt(100);
-			yPos = random.nextInt(100);
-			
-			counter++; //untuk menghitung jumlah apple yang telah di makan
-		}
-		
-		//saat makan golden apel
-		if ((goldenapple.GoldenApplexPos[xPos] == snake.snakexLength[0]) && (goldenapple.GoldenAppleyPos[yPos] == snake.snakeyLength[0]) && (counter % 6 == 0))  {
-			
-			snake.lengthOfSnake++;
-			score.increaseScore(5);
-			xPos = random.nextInt(100);
-			yPos = random.nextInt(100);
-			
-			counter = 1;
-		}
-		
-		
-//		obstacleImage = new ImageIcon("images/Obstacle.png");
-//
-//		if ((obstacle.obstaclexPos[xPos]) == snake.snakexLength[0]
-//				&& (obstacle.obstacleyPos[yPos] == snake.snakeyLength[0])) {
-//			snake.dead();
-//		}
-
-		
-		// Sebelum user mencet spacebar, apple dan obstacle ga muncul
-		if (snake.moves == 0) {
+		// Sebelum user memencet spacebar, items yang ada di board tidak muncul
+		if (snake.getMoves() == 0) {
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Courier New", Font.BOLD, 26));
 			g.drawString("Press Spacebar to Start the Game!", 70, 300);
 			g.drawString("Press C to See Credits", 70, 350);
 		}
 
-		// Cek jika kepala menabrak badan
-		for (int i = 1; i < snake.lengthOfSnake; i++) {
-			// jika tabrakan terjadi
-			if (snake.snakexLength[i] == snake.snakexLength[0] && snake.snakeyLength[i] == snake.snakeyLength[0]) {
-				// panggil function dead
+		// Instansiasi gambar untuk kepala ular
+		snakeHead = new ImageIcon("images/Head.png");
+		snakeHead.paintIcon(this, g, snake.getSnakexLength()[0], snake.getSnakeyLength()[0]);
+
+		for (int i = 0; i < snake.getLengthOfSnake(); i++) {
+			if (i == 0 && (snake.isRight() || snake.isLeft() || snake.isUp() || snake.isDown())) {
+				snakeHead = new ImageIcon("images/Head.png");
+				snakeHead.paintIcon(this, g, snake.getSnakexLength()[i], snake.getSnakeyLength()[i]);
+			}
+			if (i != 0) {
+				snakeBody = new ImageIcon("images/Body.png");
+				snakeBody.paintIcon(this, g, snake.getSnakexLength()[i], snake.getSnakeyLength()[i]);
+			}
+
+		}
+
+		// instansiasi gambar buat apel, golden apel, dan osbtacle
+		appleImage = new ImageIcon("images/Apple.png");
+		goldenappleImage = new ImageIcon("images/GoldenApple.png");
+		obstacleImage = new ImageIcon("images/Obstacle.png");
+
+		// Jika saat ular bergerak, menggambar item di board
+		if (snake.getMoves() != 0) {
+
+			appleImage.paintIcon(this, g, apple.ItemsxPos[xPos], apple.ItemsyPos[yPos]);
+
+			// Jika kelipatan 6, maka akan muncul golden apple
+			if (counter % 6 == 0) {
+				goldenappleImage.paintIcon(this, g, goldenapple.ItemsxPos[xPos], goldenapple.ItemsyPos[yPos]);
+			}
+
+			// Jika milih level hard, keluar obstacle
+			if (choice == 1) {
+				for (int i = 0; i < jumlahObstacle; i++) {
+					obstacleImage.paintIcon(this, g, randomObsX[i], randomObsY[i]);
+				}
+			}
+		}
+
+		// Jika snakenya makan apelnya
+		if ((apple.ItemsxPos[xPos] == snake.getSnakexLength()[0]) && (apple.ItemsyPos[yPos] == snake.getSnakeyLength()[0])
+				&& !(counter % 6 == 0)) {
+			snake.setLengthOfSnake(snake.getLengthOfSnake() + 1);
+			score.increaseScore(1);
+			xPos = random.nextInt(jumlahArray);
+			yPos = random.nextInt(jumlahArray);
+
+			counter++; // untuk menghitung jumlah apple yang telah di makan
+		}
+
+		// saat makan golden apel
+		if ((goldenapple.ItemsxPos[xPos] == snake.getSnakexLength()[0])
+				&& (goldenapple.ItemsyPos[yPos] == snake.getSnakeyLength()[0]) && (counter % 6 == 0)) {
+
+			snake.setLengthOfSnake(snake.getLengthOfSnake() + 3);
+			score.increaseScore(5);
+			xPos = random.nextInt(jumlahArray);
+			yPos = random.nextInt(jumlahArray);
+
+			counter = 1;
+		}
+
+		// Jika kepala ular menabrak obstacle
+		for (int i = 0; i < jumlahObstacle; i++) {
+			//jika ular mengenai obstacle
+			if (randomObsX[i] == snake.getSnakexLength()[0] && randomObsY[i] == snake.getSnakeyLength()[0]) {
 				snake.dead();
 			}
 		}
-		
-		// Cek jika mati
-		if (snake.death) {
 
-			// Save Scorenya ke file highscore.dat
+		// Jika kepala ular menabrak badan ular
+		for (int i = 1; i < snake.getLengthOfSnake(); i++) {
+			if (snake.getSnakexLength()[i] == snake.getSnakexLength()[0] && snake.getSnakeyLength()[i] == snake.getSnakeyLength()[0]) {
+				snake.dead();
+			}
+		}
+
+		// Cek jika ular mati
+		if (snake.isDeath()) {
+
+			// Save score ke file highscore.dat
 			score.saveNewScore();
 
-			// menampilkan tulisan "Game Over!"
+			// Menampilkan tulisan "Game Over!"
 			g.setColor(Color.RED);
 			g.setFont(new Font("Courier New", Font.BOLD, 50));
 			g.drawString("Game Over!", 190, 340);
 
-			// menampilkan score
+			// Menampilkan score
 			g.setColor(Color.GREEN);
 			g.setFont(new Font("Courier New", Font.BOLD, 18));
 			g.drawString("Your Score : " + score.getScore(), 250, 370);
@@ -234,7 +257,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		g.dispose();
 	}
 
-	// Void untuk menampilkan di layar string dengan \n di dalamnya
+	// Untuk menampilkan di layar string dengan \n di dalamnya
 	public void drawString(Graphics g, String text, int x, int y) {
 		for (String line : text.split("\n"))
 			g.drawString(line, x, y += g.getFontMetrics().getHeight());
@@ -245,36 +268,28 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 		timer.start();
 
-		// untuk pergerakan ular
-		// menggerakkan ular ke kanan
-		if (snake.right) {
-			// panggil fungsi pada class Snake untuk menggerakkan ular ke kanan
+		// Untuk pergerakan ular
+		// Menggerakkan ular ke kanan
+		if (snake.isRight()) {
+			// Memanggil fungsi pada class Snake untuk menggerakkan ular ke kanan
 			snake.movementRight();
-			// panggil kem matis
 			repaint();
 		}
 		// menggerakkan ular ke kiri
-		if (snake.left) {
-			// panggil fungsi pada class Snake untuk menggerakkan ular ke kiri
+		if (snake.isLeft()) {
 			snake.movementLeft();
-			// panggil kembali method paint secara otomatis
 			repaint();
 		}
 		// menggerakkan ular ke atas
-		if (snake.up) {
-			// panggil fungsi pada class Snake untuk menggerakkan ular ke atas
+		if (snake.isUp()) {
 			snake.movementUp();
-			// panggil kembali method paint secara otomatis
 			repaint();
 		}
 		// menggerakkan ular ke bawah
-		if (snake.down) {
-			// panggil fungsi pada class Snake untuk menggerakkan ular ke bawah
+		if (snake.isDown()) {
 			snake.movementDown();
-			// panggil kembali method paint secara otomatis
 			repaint();
 		}
-		
 	}
 
 	@Override
@@ -284,78 +299,82 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
-		// kondisi penekanan tombol
+
+		// Kondisi penekanan tombol
 		switch (e.getKeyCode()) {
 
-		// jika user tekan spasi
+		// jika user menekan spasi
 		case KeyEvent.VK_SPACE:
 
+			// Dialog untuk memilih level
 			choice = JOptionPane.showOptionDialog(null, "Pilih level", "Level", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
+			if (snake.getMoves() == 0) {
+				snake.setMoves(snake.getMoves() + 1);
+				snake.setRight(true);
+				// Jika memilih level easy
 				if (choice == 0) {
-					if (snake.moves == 0) {
-						snake.moves++;
-						snake.right = true;
-						timer = new Timer(delayeasy, this);
-						timer.start();
-					}
-
-				} else if (choice == 1) {
-					if (snake.moves == 0) {
-						snake.moves++;
-						snake.right = true;
-						timer = new Timer(delayhard, this);
-						timer.start();
-					}
-
-				} else if (choice == JOptionPane.CLOSED_OPTION) {
-
+					timer = new Timer(delayeasy, this);
+					timer.start();
+				}
+				// Saat memilih level "hard" maka ular akan semakin cepat
+				else if (choice == 1) {
+					timer = new Timer(delayhard, this);
+					timer.start();
 				}
 
-			
-			// jika user tekan arrow right
+
+				// Tombol close di dialog pilih level
+			} else if (choice == JOptionPane.CLOSED_OPTION) {
+
+			}
+
+		// jika user tekan arrow right
 		case KeyEvent.VK_RIGHT:
 			snake.moveRight();
 			break;
+
 		// jika user tekan arrow left
 		case KeyEvent.VK_LEFT:
 			snake.moveLeft();
 			break;
+
 		// jika user tekan arrow up
 		case KeyEvent.VK_UP:
 			snake.moveUp();
 			break;
+
 		// jika user tekan arrow down
 		case KeyEvent.VK_DOWN:
 			snake.moveDown();
 			break;
 
+		// Memencet C akan memunculkan credit
 		case KeyEvent.VK_C:
 			JOptionPane.showMessageDialog(null,
-						"Muhammad Daffa 05111940000175\nNur Ahmad Khatim 05111940000074\nEvelyn Sierra 05111940000111");
-			
+					"Muhammad Daffa 05111940000175\nNur Ahmad Khatim 05111940000074\nEvelyn Sierra 05111940000111");
+
 			break;
 
+		// Saat mati, pencet R untuk kembali ke home + kondisi yang lain
 		case KeyEvent.VK_R:
-
-			if (snake.death) {
-				snake.moves = 0;
-				snake.lengthOfSnake = 5;
+			// Kondisi jika ular mati
+			if (snake.isDeath()) {
+				snake.setMoves(0);
+				snake.setLengthOfSnake(5);
 				score.resetScore();
-				snake.death = false;
+				snake.setDeath(false);
 				counter = 1;
 				repaint();
 			}
 			break;
 		}
-		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
+
 	}
 
 }
