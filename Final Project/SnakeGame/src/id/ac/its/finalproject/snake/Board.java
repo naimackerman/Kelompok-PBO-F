@@ -145,6 +145,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		g.setFont(new Font("Helvetica", Font.BOLD, 20));
 		g.drawString("SCORE : " + AllScore, 720, 110);
 		g.drawRect(653, 130, 221, 1);
+		score.setScore(AllScore);
 
 		// Menampilkan highscore
 		score.sortHighScore();

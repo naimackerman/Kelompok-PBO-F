@@ -9,15 +9,11 @@ public class Apple extends Items{
 		super();
 		this.score = new Score();
 	}
-	
-//	@Override
-//	public int getScore() {
-//		return score.getScore();
-//	}
+
 	
 	@Override
 	public int increaseScore() {
-		score.increaseScore(1);
+		score.increaseScore(1); //peningkatan skor sesuai dengan jenis apel yang dimakan
 		return score.getScore();
 	}
 }

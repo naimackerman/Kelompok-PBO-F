@@ -9,15 +9,10 @@ public class GoldenApple extends Items{
 		super();
 		this.score = new Score();
 	}
-
-//	@Override
-//	public int getScore() {
-//		return score.getScore();
-//	}
 	
 	@Override
 	public int increaseScore() {
-		score.increaseScore(5);
+		score.increaseScore(5); //peningkatan skor sesuai jenis apel yang dimakan
 		return score.getScore();
 	}
 }
