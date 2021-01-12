@@ -366,6 +366,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 				score.resetScore();
 				snake.setDeath(false);
 				counter = 1;
+				timer.stop();
 				repaint();
 			}
 			break;
