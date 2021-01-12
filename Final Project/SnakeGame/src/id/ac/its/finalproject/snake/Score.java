@@ -21,7 +21,7 @@ public class Score {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
+
 	// Fungsi menambah score
 	public void increaseScore(int increment) {
 		this.score += increment;

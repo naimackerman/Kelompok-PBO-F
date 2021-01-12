@@ -41,6 +41,9 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 	// counter untuk menghitung apel keluar berapa kali
 	private int counter = 1;
+	
+	private int totalScore = 0;
+	private int totalScore1 = 0;
 
 	// choice adalah pilihan level, jika level 0 = easy & 1 = hard
 	private int choice = 5;
@@ -135,11 +138,12 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		// Background highschore
 		g.setColor(Color.BLACK);
 		g.fillRect(654, 72, 221, 613);
-
+		
 		// Menampilkan score
+		int AllScore = totalScore + totalScore1;
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Helvetica", Font.BOLD, 20));
-		g.drawString("SCORE : " + score.getScore(), 720, 110);
+		g.drawString("SCORE : " + AllScore, 720, 110);
 		g.drawRect(653, 130, 221, 1);
 
 		// Menampilkan highscore
@@ -199,10 +203,9 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		if ((apple.ItemsxPos[xPos] == snake.getSnakexLength()[0]) && (apple.ItemsyPos[yPos] == snake.getSnakeyLength()[0])
 				&& !(counter % 6 == 0)) {
 			snake.setLengthOfSnake(snake.getLengthOfSnake() + 1);
-			score.increaseScore(1);
 			xPos = random.nextInt(jumlahArray);
 			yPos = random.nextInt(jumlahArray);
-
+			totalScore =+ apple.increaseScore();
 			counter++; // untuk menghitung jumlah apple yang telah di makan
 		}
 
@@ -211,12 +214,12 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 				&& (goldenapple.ItemsyPos[yPos] == snake.getSnakeyLength()[0]) && (counter % 6 == 0)) {
 
 			snake.setLengthOfSnake(snake.getLengthOfSnake() + 3);
-			score.increaseScore(5);
 			xPos = random.nextInt(jumlahArray);
 			yPos = random.nextInt(jumlahArray);
-
+			totalScore1 =+ goldenapple.increaseScore();
 			counter = 1;
 		}
+
 
 		// Jika kepala ular menabrak obstacle
 		for (int i = 0; i < jumlahObstacle; i++) {
@@ -247,7 +250,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 			// Menampilkan score
 			g.setColor(Color.GREEN);
 			g.setFont(new Font("Courier New", Font.BOLD, 18));
-			g.drawString("Your Score : " + score.getScore(), 250, 370);
+			g.drawString("Your Score : " + AllScore, 250, 370);
 
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Courier New", Font.BOLD, 20));

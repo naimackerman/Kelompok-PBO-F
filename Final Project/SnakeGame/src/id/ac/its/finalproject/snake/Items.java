@@ -14,6 +14,8 @@ public class Items {
 			439, 445, 451, 457, 463, 469, 475, 481, 487, 493, 499, 505, 511, 517, 523, 529, 535, 541, 547, 553, 559,
 			565, 571, 577, 583, 589, 595, 601, 607, 613, 619, 625, 631, 637, 643, 649, 655, 661, 667 };
 
+	protected int value;
+	
 	//Default Constructor
 	public Items() {
 
@@ -41,5 +43,9 @@ public class Items {
 	
 	public void setItemsyPos(int[] itemsyPos) {
 		ItemsyPos = itemsyPos;
+	}
+
+	public int increaseScore() {
+		return 0;
 	}
 }
