@@ -187,7 +187,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 			appleImage.paintIcon(this, g, apple.ItemsxPos[xPos], apple.ItemsyPos[yPos]);
 
-			// Jika kelipatan 6, maka akan muncul golden apple
+			// Jika ular sudah makan 5 apel biasa, maka akan muncul golden apple
 			if (counter % 6 == 0) {
 				goldenappleImage.paintIcon(this, g, goldenapple.ItemsxPos[xPos], goldenapple.ItemsyPos[yPos]);
 			}
@@ -214,7 +214,7 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 		if ((goldenapple.ItemsxPos[xPos] == snake.getSnakexLength()[0])
 				&& (goldenapple.ItemsyPos[yPos] == snake.getSnakeyLength()[0]) && (counter % 6 == 0)) {
 
-			snake.setLengthOfSnake(snake.getLengthOfSnake() + 3);
+			snake.setLengthOfSnake(snake.getLengthOfSnake() + 3); // panjang ular bertambah 3
 			xPos = random.nextInt(jumlahArray);
 			yPos = random.nextInt(jumlahArray);
 			totalScore1 =+ goldenapple.increaseScore();
@@ -223,10 +223,12 @@ public class Board extends JPanel implements KeyListener, ActionListener {
 
 
 		// Jika kepala ular menabrak obstacle
-		for (int i = 0; i < jumlahObstacle; i++) {
-			//jika ular mengenai obstacle
-			if (randomObsX[i] == snake.getSnakexLength()[0] && randomObsY[i] == snake.getSnakeyLength()[0]) {
-				snake.dead();
+		if (choice == 1) {
+			for (int i = 0; i < jumlahObstacle; i++) {
+				//jika ular mengenai obstacle
+				if (randomObsX[i] == snake.getSnakexLength()[0] && randomObsY[i] == snake.getSnakeyLength()[0]) {
+					snake.dead();
+				}
 			}
 		}
 
